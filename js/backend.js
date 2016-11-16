@@ -19,6 +19,11 @@ var myPostsMenuButton = document.getElementById('menu-my-posts');
 var locationMenuButton = document.getElementById('menu-location-posts');
 var topPostsMenuButton = document.getElementById('menu-top-posts');
 var listeningFirebaseRefs = [];
+var aboutMenuButton = document.getElementById('menu-about');
+var aboutSection = document.getElementById('about');
+var contactMenuButton = document.getElementById('menu-contact');
+var contactSection = document.getElementById('contact');
+
 
 function writeNewPost(uid, username, picture, title, body, location, price) {
     var postData = {
@@ -421,11 +426,15 @@ function showSection(sectionElement, buttonElement) {
     userPostsSection.style.display = 'none';
     topPostsSection.style.display = 'none';
     locationSection.style.display = 'none';
+	aboutSection.style.display = 'none';
+	contactSection.style.display = 'none';
     addPost.style.display = 'none';
     recentMenuButton.classList.remove('is-active');
     myPostsMenuButton.classList.remove('is-active');
     topPostsMenuButton.classList.remove('is-active');
     locationMenuButton.classList.remove('is-active');
+	aboutMenuButton.classList.remove('is-active');
+    contactMenuButton.classList.remove('is-active');
     if (sectionElement) {
         sectionElement.style.display = 'block';
     }
@@ -483,6 +492,15 @@ window.addEventListener('load', function () {
         showSection(locationSection, locationMenuButton);
         // showNotif("Location Posts");
     };
+	  aboutMenuButton.onclick = function () {
+            showSection(aboutSection, aboutMenuButton);
+            showNotif("About");
+        }; 
+			  contactMenuButton.onclick = function () {
+            showSection(contactSection, contactMenuButton);
+            showNotif("Contact");
+        }; 
+		
     addButton.onclick = function () {
         showSection(addPost);
         messageInput.value = '';
