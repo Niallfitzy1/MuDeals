@@ -469,19 +469,19 @@ window.addEventListener('load', function () {
     // Bind menu buttons.
     recentMenuButton.onclick = function () {
         showSection(recentPostsSection, recentMenuButton);
-        showNotif("Recent Posts");
+       // showNotif("Recent Posts");
     };
     myPostsMenuButton.onclick = function () {
         showSection(userPostsSection, myPostsMenuButton);
-        showNotif("Your Posts");
+       // showNotif("Your Posts");
     };
     topPostsMenuButton.onclick = function () {
         showSection(topPostsSection, topPostsMenuButton);
-        showNotif("Top Posts");
+        //showNotif("Top Posts");
     };
     locationMenuButton.onclick = function () {
         showSection(locationSection, locationMenuButton);
-        showNotif("Location Posts");
+        // showNotif("Location Posts");
     };
     addButton.onclick = function () {
         showSection(addPost);

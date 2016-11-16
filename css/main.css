@@ -393,3 +393,16 @@ Overrides MDL colors .mdl-layout.is-upgraded .mdl-layout__tab.is-active::after,
     color: white;
     flex-direction: column;
 }
+
+
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 80%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 80%;
+        margin: 0px;
+        padding: 0px;
+      }
