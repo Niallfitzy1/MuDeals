@@ -23,7 +23,7 @@ var aboutMenuButton = document.getElementById('menu-about');
 var aboutSection = document.getElementById('about');
 var contactMenuButton = document.getElementById('menu-contact');
 var contactSection = document.getElementById('contact');
-
+var map;
 
 function writeNewPost(uid, username, picture, title, body, location, price) {
     var postData = {
@@ -75,6 +75,26 @@ function showNotif(messageIn) {
         message: messageIn
     });
 }
+function addMarker(latlong) {
+    var marker = new google.maps.Marker({
+        draggable: false
+        , animation: google.maps.Animation.DROP
+        , position: latlong
+        , map: map
+    });
+};
+
+function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+            lat: 53.381145
+            , lng: -6.592528
+        }
+        , zoom: 16
+    });
+    var latlong = new google.maps.LatLng(53.381145, -6.592528);
+    addMarker(latlong);//adds marker to centre of map as test
+};
 /**
  * Creates a post element.
  */
@@ -491,6 +511,7 @@ window.addEventListener('load', function () {
     locationMenuButton.onclick = function () {
         showSection(locationSection, locationMenuButton);
         // showNotif("Location Posts");
+		initMap();
     };
 	  aboutMenuButton.onclick = function () {
             showSection(aboutSection, aboutMenuButton);

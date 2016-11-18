@@ -132,10 +132,14 @@
             <section class="mdl-grid content" id="top-posts-list" style="display:none">
                 <div class="posts-container mdl-cell mdl-cell--12-col mdl-grid"> </div>
             </section>
-            <section class="mdl-grid content" id="location-posts-list" style="display:none">
+                  <section class="mdl-grid content" id="location-posts-list" style="display:''">
+               <div class="map-card-wide mdl-shadow--2dp">
+                  <div id="map"></div>
+                </div>
                 <div class="posts-container mdl-cell mdl-cell--12-col mdl-grid">
-                <div id="map"></div></div>
-				</section>
+                    
+                </div>
+            </section>
 				<section class="mdl-grid content" id="about" style="display:none">
                 <div class="posts-container mdl-cell mdl-cell--12-col mdl-grid">
 				<h1>About Us</h1>
@@ -165,54 +169,15 @@
 				<p>
 				</div>
 				</div>
-				</section>
-			
-                    <!--
-    <div id="map"></div>
-    <script>
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 53.381145, lng: -6.592528},
-          zoom: 18
-        });
-		
-		var marker = new google.maps.Marker({
-			map: map,
-			title: 'Pizza Dog',
-			draggable: false,
-			animation: google.maps.Animation.DROP,
-			position: {lat:53.381337, lng:-6.592295}
-		});
-		
-		var dealfeed = 
-		    '<div id="content">'+
-            '<h1 id="firstHeading" class="frstHeading">Top Deals:</h1>'+
-            '<div id="bodyContent">'+
-            '<p> Deals appear here </p>'+
-            '</div>'+
-            '</div>';
-
-			
-		var dealswindow = new google.maps.InfoWindow({
-          content: dealfeed
-        });
-		
-		marker.addListener('click', function() {
-          dealswindow.open(map, marker);
-        });
-		
-      }
-	  google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC340CZAh6bhmuhglrfzGfZXCMdR2B7LXA&callback=initMap"
-    async defer></script>
-	
-                    -->
+			</section>
                  </div>
             </section>
         </main>
     </div>
+        <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJT9yRBOzYynvkw3461X7hmsj8b97APwA
+        &libraries=visualization">
+    </script>
     <script src="js/backend.js"></script>
 </body>
 
