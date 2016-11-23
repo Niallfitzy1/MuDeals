@@ -14,171 +14,172 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Demonstrates the use of Google Cloud Database with a Firebase DB">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MU Deals</title>
-    <!-- Disable tap highlight on IE -->
-    <meta name="msapplication-tap-highlight" content="no">
-    <!-- Add to homescreen for Chrome on Android -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Firebase Database Quickstart">
-    <meta name="theme-color" content="#303F9F">
-    <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Firebase Database Quickstart">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#303F9F">
-    <!-- Tile icon for Win8 -->
-    <meta name="msapplication-TileColor" content="#3372DF">
-    <meta name="msapplication-navbutton-color" content="#303F9F">
-    <!-- Material Design Lite -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.teal-red.min.css" />
-    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    <script src="https://www.gstatic.com/firebasejs/3.5.3/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-         
-        var config = {  
-            apiKey: "AIzaSyD11AaOMyMzUp2ZOacr5-JJUObLtXpwiNI"
-            ,   authDomain: "team-project-19eb5.firebaseapp.com"
-            ,   databaseURL: "https://team-project-19eb5.firebaseio.com"
-            ,   storageBucket: "team-project-19eb5.appspot.com"
-            ,   messagingSenderId: "992771716726" 
-        }; 
-        firebase.initializeApp(config);
-    </script>
-
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="MU Deals: Student deals in Maynooth">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MU Deals</title>
+	<!-- Disable tap highlight on IE -->
+	<meta name="msapplication-tap-highlight" content="no">
+	<!-- Add to homescreen for Chrome on Android -->
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="application-name" content="Mu Deals: Student Deals in Maynooth">
+	<meta name="theme-color" content="#008080">
+	<!-- Add to homescreen for Safari on iOS -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-mobile-web-app-title" content="Mu Deals: Student Deals in Maynooth">
+	<meta name="apple-mobile-web-app-status-bar-style" content="#008080">
+	<!-- Tile icon for Win8 -->
+	<meta name="msapplication-TileColor" content="#008080">
+	<meta name="msapplication-navbutton-color" content="#008080">
+	<!-- Material Design Lite -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.teal-red.min.css" />
+	<script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+	<link rel="stylesheet" href="css/main.css">
+	<script src="https://www.gstatic.com/firebasejs/3.5.3/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
+	<script>
+		// Initialize Firebase
+		 
+		var config = {  
+			apiKey: "AIzaSyD11AaOMyMzUp2ZOacr5-JJUObLtXpwiNI"
+			,   authDomain: "team-project-19eb5.firebaseapp.com"
+			,   databaseURL: "https://team-project-19eb5.firebaseio.com"
+			,   storageBucket: "team-project-19eb5.appspot.com"
+			,   messagingSenderId: "992771716726" 
+		}; 
+		firebase.initializeApp(config);
+	</script>
 </head>
 
 <body>
-    <!-- Splash screen -->
-    <section id="page-splash">
-        <!--h3 class="logo">Database Web Quickstart</h3>-->
-        <div>
-            <button id="sign-in-button" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"><i class="material-icons">account_circle</i> Sign in with Google</button>
-        </div>
-    </section>
-    <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <!-- Header section containing logo and menu -->
-        <header class="header mdl-layout__header">
-            <div class="mdl-layout__header-row titlebar">
-                <h3 class="logo"><i class="material-icons">local_offer</i> MU Deals</h3>
-                <button id="sign-out-button" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"><i class="material-icons">account_circle</i> Sign out</button>
-            </div>
-            <!-- Navigation Bar -->
-            <div class="tab mdl-layout__header-row">
-                <div class="mdl-tab">
-                    <div id="menu-recent" class="mdl-layout__tab is-active mdl-button mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">new_releases</i> Recent Posts</div>
-                    <div id="menu-top-posts" class="mdl-layout__tab mdl-button mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">trending_up</i> Top posts</div>
-                    <div id="menu-my-posts" class="mdl-layout__tab mdl-button mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">face</i> My posts</div>
-                   <div id="menu-location-posts" class="mdl-layout__tab mdl-button mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">location_on</i> Locations</div>
-				    <div id="menu-about" class="mdl-layout__tab mdl-button mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">info_outline</i> about</div>
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+		<!-- Splash screen -->
+		<!-- Header section containing logo and menu -->
+		<header class="header mdl-layout__header">
+			<div class="mdl-layout__header-row titlebar">
+				<h3 class="logo"><i class="material-icons">local_offer</i> MU Deals</h3>
+				<button id="sign-out-button" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"><i class="material-icons">account_circle</i> Sign out</button>
+				<button id="sign-in-button" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"><i class="material-icons">account_circle</i> Sign in with Google</button>
+			</div>
+			<!-- Navigation Bar -->
+			<div class="tab mdl-layout__header-row ">
+				<div class="mdl-tab">
+					<div id="menu-recent" class="mdl-layout__tab is-active mdl-button mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">new_releases</i> Recent Posts</div>
+					<div id="menu-top-posts" class="mdl-layout__tab mdl-button mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">trending_up</i> Top posts</div>
+					<div id="menu-my-posts" class="mdl-layout__tab mdl-button mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">face</i> My posts</div>
+					<div id="menu-location-posts" class="mdl-layout__tab mdl-button mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">location_on</i> Locations</div>
+					<div id="menu-about" class="mdl-layout__tab mdl-button mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">info_outline</i> about</div>
 					<div id="menu-contact" class="mdl-layout__tab mdl-button mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">email</i> contact</div>
-                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-shadow--4dp mdl-color--red mdl-js-ripple-effect" id="add"> <i class="material-icons">mode_edit</i> </button>
-                </div>
-            </div>
-            <div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
-                <div class="mdl-snackbar__text" style="text-align: center;"></div>
-                <button type="button" class="mdl-snackbar__action"></button>
-            </div>
-        </header>
-        <main class="mdl-layout__content">
-            <!-- Show the add post form -->
-            <section class="mdl-grid content" id="add-post" style="display:none">
-                <div class="mdl-cell mdl-cell--12-col mdl-grid">
-                    <!-- Card containing the inputs to add a new messages -->
-                    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet
-                  mdl-cell--6-col-desktop">
-                        <div class="mdl-card__title">
-                            <h2 class="mdl-card__title-text">New Post</h2> </div>
-                        <div class="mdl-card__supporting-text">
-                            <form id="message-form" action="#">
-                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <input class="mdl-textfield__input" type="text" id="new-post-title">
-                                    <label class="mdl-textfield__label" for="new-post-title">Post title...</label>
-                                </div>
-                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <textarea class="mdl-textfield__input" rows="3" id="new-post-message"></textarea>
-                                    <label class="mdl-textfield__label" for="new-post-message">Post message...</label>
-                                </div>
-                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <textarea class="mdl-textfield__input" rows="3" id="new-post-location"></textarea>
-                                    <label class="mdl-textfield__label" for="new-post-location">Location...</label>
-                                </div>
-                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <textarea class="mdl-textfield__input" rows="3" id="new-post-price"></textarea>
-                                    <label class="mdl-textfield__label" for="new-post-price">Price...</label>
-                                </div>
-                                <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"> Add post </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- Show a list of recent posts -->
-            <section class="mdl-grid content" id="recent-posts-list" style="display:''">
-                <div class="posts-container mdl-cell mdl-cell--12-col mdl-grid"> </div>
-            </section>
-            <!-- Show the list of user's posts -->
-            <section class="mdl-grid content" id="user-posts-list" style="display:none">
-                <div class="posts-container mdl-cell mdl-cell--12-col mdl-grid"> </div>
-            </section>
-            <!-- Show the list of top user's posts -->
-            <section class="mdl-grid content" id="top-posts-list" style="display:none">
-                <div class="posts-container mdl-cell mdl-cell--12-col mdl-grid"> </div>
-            </section>
-                  <section class="mdl-grid content" id="location-posts-list" style="display:''">
-               <div class="map-card-wide mdl-shadow--2dp">
-                  <div id="map"></div>
-                </div>
-                <div class="posts-container mdl-cell mdl-cell--12-col mdl-grid">
-                    
-                </div>
-            </section>
-				<section class="mdl-grid content" id="about" style="display:none">
-                <div class="posts-container mdl-cell mdl-cell--12-col mdl-grid">
-				<h1>About Us</h1>
-				<p id = "p1">If you've been through or currently studying in College or University you know how 
-				tight money can be and how frustrating it is walking into a shop only to come out empty 
-				handed because there was nothing under £5 to fill you up for the day. <br>
-				So when we were given a 3rd year project that would be presented to the rest of the year 
-				we thought we would create something benificial for college students like ourselves. 
-				We thought we'd create an application that would save students from having to scope out
-				deals themselves and instead have them easily accessible through this app. <br>
-				How it works is, Students can scroll through a number of deals which have been found in their
-				location or College/University campus.
-				If you register yourself with MUDeals you can upload the deals you may have stumbled upon for
-				other college students to find. 
-				Each deal can be given a rating so that it will stay relevant.
-				<br>
-				Hopefully with MUDeals, students won't have to worry about breaking the bank for lunch anymore. 
-				  </p>
-				 </div>				
-            </section>
-				<section class="mdl-grid content" id="contact" style="display:none">
-                <div class="posts-container mdl-cell mdl-cell--12-col mdl-grid">
-				<div>
-				<h1>Contact us</h1>
-				<p> Feel free to contact us for support or to give us feedback on our site!
-				<a href="mailto:mudealsproject@gmail.com?subject=Feedback%20on%20MuDeals%20Website"><i class="material-icons">mail_outline</i>Send mail</a>
-				<p>
 				</div>
+			</div>
+			<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+				<div class="mdl-snackbar__text" style="text-align: center;"></div>
+				<button type="button" class="mdl-snackbar__action"></button>
+			</div>
+		</header>
+		<main class="mdl-layout__content">
+			<!-- Show the add post form -->
+			<section class="mdl-grid content" id="add-post" style="display:none">
+				<div class="mdl-cell mdl-cell--12-col mdl-grid">
+					<!-- Card containing the inputs to add a new messages -->
+					<div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet
+                  mdl-cell--6-col-desktop">
+						<div class="mdl-card__title">
+							<h2 class="mdl-card__title-text">New Post</h2> </div>
+						<div class="mdl-card__supporting-text">
+							<form id="message-form" action="#">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<input class="mdl-textfield__input" type="text" id="new-post-title">
+									<label class="mdl-textfield__label" for="new-post-title">Post title...</label>
+								</div>
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<textarea class="mdl-textfield__input" rows="3" id="new-post-message"></textarea>
+									<label class="mdl-textfield__label" for="new-post-message">Post message...</label>
+								</div>
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<textarea class="mdl-textfield__input" rows="1" id="new-post-location"></textarea>
+									<label class="mdl-textfield__label" for="new-post-location">Location Name...</label>
+								</div>
+								<div id=mapContainer></div>
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<textarea class="mdl-textfield__input" rows="1" id="new-post-price"></textarea>
+									<label class="mdl-textfield__label" for="new-post-price">Price...</label>
+								</div>
+								<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"> Add post </button>
+							</form>
+						</div>
+					</div>
 				</div>
 			</section>
-                 </div>
-            </section>
-        </main>
-    </div>
-        <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJT9yRBOzYynvkw3461X7hmsj8b97APwA
+			<!-- Show a list of recent posts -->
+			<section class="mdl-grid content" id="recent-posts-list" style="display:''">
+				<div class="posts-container mdl-cell mdl-cell--12-col mdl-grid"> </div>
+			</section>
+			<!-- Show the list of user's posts -->
+			<section class="mdl-grid content" id="user-posts-list" style="display:none">
+				<div class="posts-container mdl-cell mdl-cell--12-col mdl-grid"> </div>
+			</section>
+			<!-- Show the list of top user's posts -->
+			<section class="mdl-grid content" id="top-posts-list" style="display:none">
+				<div class="posts-container mdl-cell mdl-cell--12-col mdl-grid"> </div>
+			</section>
+			<section class="mdl-grid content" id="location-posts-list" style="display:''">
+				<div class="map-card-wide mdl-shadow--2dp">
+					<div id="map"></div>
+				</div>
+				<div class="mdl-grid--no-spacing" id="location-filter-list" style="display:none">
+					<div>
+						<div class="mdl-card--12-col">
+							<div class="mdl-card__title">
+								<h4 class="mdl-card__title-text">Search Results</h4></div>
+						</div>
+						<div class="posts-container mdl-cell mdl-cell--12-col mdl-grid"></div>
+					</div>
+				</div>
+				<div class="mdl-grid--no-spacing" id="location-posts-list-content">
+					<div class="mdl-card--12-col">
+						<div class="mdl-card__title">
+							<h4 class="mdl-card__title-text">All Deals</h4></div>
+					</div>
+					<div class="posts-container mdl-cell mdl-cell--12-col mdl-grid"></div>
+				</div>
+			</section>
+			<section class="mdl-grid content" id="about" style="display:none">
+				<div class="mdl-card-wide --12-col mdl-shadow--2dp">
+					<div class="mdl-card__title">
+						<h4 class="mdl-card__title-text">About Us</h4></div>
+					<p id="p1">If you've been through or currently studying in College or University you know how tight money can be and how frustrating it is walking into a shop only to come out empty handed because there was nothing under €5 to fill you up for the day.
+						<br> So when we were given a 3rd year project that would be presented to the rest of the year we thought we would create something benificial for college students like ourselves. We thought we'd create an application that would save students from having to scope out deals themselves and instead have them easily accessible through this app.
+						<br> How it works is, Students can scroll through a number of deals which have been found in their location or College/University campus. If you register yourself with MUDeals you can upload the deals you may have stumbled upon for other college students to find. Each deal can be given a rating so that it will stay relevant.
+						<br> Hopefully with MUDeals, students won't have to worry about breaking the bank for lunch anymore. </p>
+				</div>
+			</section>
+			<section class="mdl-grid content" id="contact" style="display:none">
+				<div class="mdl-card-wide --12-col mdl-shadow--2dp">
+					<div class="mdl-card__title">
+						<h4 class="mdl-card__title-text">Contact Us</h4></div>
+					<p id=p2> Feel free to contact us for support or to give us feedback on our site!
+						<a href="mailto:mudealsproject@gmail.com?subject=Feedback%20on%20MuDeals%20Website">
+							<div id=mail><i class="material-icons">mail_outline</i>
+								<br>Send mail</div>
+						</a>
+						<br> </p>
+				</div>
+			</section>
+	</div>
+	</section>
+	<button class="mdl-button mdl-js-button mdl-button--fab mdl-shadow--4dp mdl-color--red mdl-js-ripple-effect" id="add"> <i class="material-icons">mode_edit</i> </button>
+	</main>
+	</div>
+	<script async defer         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJT9yRBOzYynvkw3461X7hmsj8b97APwA
         &libraries=visualization">
-    </script>
-    <script src="js/backend.js"></script>
+	</script>
+	<script src="js/backend.js"></script>
 </body>
 
 </html>
