@@ -301,10 +301,11 @@ Overrides MDL colors .mdl-layout.is-upgraded .mdl-layout__tab.is-active::after,
 	width: calc(100% - 100px);
 	display: inline-block;
 }
-.post .star-count {
+.mdl-card .star .star-count {
 	color: #ffcb0c;
 	padding: 0 10px 0 5px;
 	font-weight: bold;
+	line-height: 40px;
 	display: inline-block;
 	top: -10px;
 }
@@ -330,22 +331,24 @@ Overrides MDL colors .mdl-layout.is-upgraded .mdl-layout__tab.is-active::after,
 .post .add-comment.mdl-textfield {
 	width: 100%;
 }
-.post .star {
+.star {
 	white-space: nowrap;
 	/* <-- force items to display on the same line */
 	top: 10px;
 	right: 0;
+	display: inline-block;
 }
-.post .star .material-icons {
+.star .material-icons {
 	font-size: 35px;
 	color: #ffcb0c;
 	cursor: pointer;
-	display: inline-block
+	display: inline-block;
+	float:left;
 }
-.post .star .material-icons:HOVER {
+.star .material-icons:HOVER {
 	opacity: 0.6;
 }
-.post .star .starred {
+.star .starred {
 	display: none;
 }
 .mdl-card__title {

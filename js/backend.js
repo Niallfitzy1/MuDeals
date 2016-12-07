@@ -30,6 +30,7 @@ var clickLat;
 var clickLng;
 var locations = [];
 var existTitle;
+var infowindows = [];
 
 function writeNewPost(uid, username, picture, title, body, location, lati, lng, price) {
 	var postData = {
@@ -76,6 +77,12 @@ function toggleStar(postRef, uid) {
 	});
 }
 // [END post_stars_transaction]
+//close open infowindows
+function CloseWindows() {
+	for (var i = 0; i < infowindows.length; i++) {
+		infowindows[i].close();
+	}
+}
 //Function to display a snackbar notification
 function showNotif(messageIn) {
 	var notification = document.querySelector('.mdl-js-snackbar');
@@ -97,8 +104,10 @@ function addMarker(locations) {
 		var infowindow = new google.maps.InfoWindow()
 		google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
 			return function () {
+				CloseWindows();
 				infowindow.setContent(content);
 				infowindow.open(map, marker);
+				infowindows.push(infowindow);
 			};
 		})(marker, content, infowindow));
 	}
@@ -110,6 +119,184 @@ function initMap() {
 			lat: 53.381145
 			, lng: -6.592528
 		}
+		, styles: [
+			{
+				"elementType": "geometry"
+				, "stylers": [
+					{
+						"color": "#242f3e"
+      }
+    ]
+  }
+			, {
+				"elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#746855"
+      }
+    ]
+  }
+			, {
+				"elementType": "labels.text.stroke"
+				, "stylers": [
+					{
+						"color": "#242f3e"
+      }
+    ]
+  }
+			, {
+				"featureType": "administrative.locality"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#d59563"
+      }
+    ]
+  }
+			, {
+				"featureType": "poi"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#d59563"
+      }
+    ]
+  }
+			, {
+				"featureType": "poi.business"
+				, "stylers": [
+					{
+						"visibility": "on"
+      }
+    ]
+  }
+			, {
+				"featureType": "poi.park"
+				, "elementType": "geometry"
+				, "stylers": [
+					{
+						"color": "#263c3f"
+      }
+    ]
+  }
+			, {
+				"featureType": "poi.park"
+				, "elementType": "labels.text"
+				, "stylers": [
+					{
+						"visibility": "on"
+      }
+    ]
+  }
+			, {
+				"featureType": "poi.park"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#6b9a76"
+      }
+    ]
+  }
+			, {
+				"featureType": "road"
+				, "elementType": "geometry"
+				, "stylers": [
+					{
+						"color": "#38414e"
+      }
+    ]
+  }
+			, {
+				"featureType": "road"
+				, "elementType": "geometry.stroke"
+				, "stylers": [
+					{
+						"color": "#212a37"
+      }
+    ]
+  }
+			, {
+				"featureType": "road"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#9ca5b3"
+      }
+    ]
+  }
+			, {
+				"featureType": "road.highway"
+				, "elementType": "geometry"
+				, "stylers": [
+					{
+						"color": "#746855"
+      }
+    ]
+  }
+			, {
+				"featureType": "road.highway"
+				, "elementType": "geometry.stroke"
+				, "stylers": [
+					{
+						"color": "#1f2835"
+      }
+    ]
+  }
+			, {
+				"featureType": "road.highway"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#f3d19c"
+      }
+    ]
+  }
+			, {
+				"featureType": "transit"
+				, "elementType": "geometry"
+				, "stylers": [
+					{
+						"color": "#2f3948"
+      }
+    ]
+  }
+			, {
+				"featureType": "transit.station"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#d59563"
+      }
+    ]
+  }
+			, {
+				"featureType": "water"
+				, "elementType": "geometry"
+				, "stylers": [
+					{
+						"color": "#17263c"
+      }
+    ]
+  }
+			, {
+				"featureType": "water"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#515c6d"
+      }
+    ]
+  }
+			, {
+				"featureType": "water"
+				, "elementType": "labels.text.stroke"
+				, "stylers": [
+					{
+						"color": "#17263c"
+      }
+    ]
+  }
+]
 		, zoom: 15
 	});
 	addMarker(locations); //adds marker to centre of map as test
@@ -133,12 +320,19 @@ function updateLocations(locationPostsRef) {
 	locations = [];
 	locationPostsRef.on("value", function (snap) {
 		snap.forEach(function (data) {
+			var markerExist = false;
 			var tempLoc = {
 				place: data.val().location
 				, placeLat: data.val().lat
 				, placeLong: data.val().long
 			};
-			locations.push(tempLoc);
+			markerExist = false;
+			for (var i = 0; i < (locations.length && !markerExist); i++) {
+				if ((locations[i].placeLat == tempLoc.placeLat) && (locations[i].placeLong == tempLoc.placeLong)) {
+					markerExist = true;
+				}
+			}
+			if (!markerExist) locations.push(tempLoc);
 		});
 	});
 }
@@ -149,7 +343,7 @@ function createPostElement(postId, title, text, location, price, author, authorI
 	//if logged in makes auth related elements too
 	if (currentUID != undefined) {
 		var uid = firebase.auth().currentUser.uid;
-		var html = '<div class="post-' + postId + ' mdl-cell mdl-cell--12-col ' + 'mdl-cell--4-col-tablet mdl-cell--6-col-phone mdl-cell--4-col-desktop mdl-grid mdl-grid--no-spacing">' + '<div class="mdl-card mdl-shadow--2dp">' + '<div class="mdl-card__title">' + '<h4 class="mdl-card__title-text"></h4>' + '</div>' + '<div class="header">' + '<div>' + '<div class="avatar"></div>' + '<div class="username mdl-color-text--black"></div>' + '</div>' + '</div>' + '<span class="star">' + '<div class="not-starred material-icons">star_border</div>' + '<div class="starred material-icons">star</div>' + '<div class="star-count">0</div>' + '</span>' + '<h5>Deal Info</h5>' + '<div class="text"></div>' + '<h5>Deal Location</h5>' + '<div class="location"></div>' + '<h5>Deal Pricing</h5>' + '<div class="price"></div>' + '<h5>Comments</h5>' + '<div class="comments-container"></div>' + '<form class="add-comment" action="#">' + '<div class="mdl-textfield mdl-js-textfield">' + '<input class="mdl-textfield__input new-comment" type="text">' + '<label class="mdl-textfield__label">Add Comment...</label>' + '</div>' + '</form>' + '</div>' + '</div>';
+		var html = '<div class="post-' + postId + ' mdl-cell mdl-cell--12-col ' + 'mdl-cell--4-col-tablet mdl-cell--6-col-phone mdl-cell--4-col-desktop mdl-grid mdl-grid--no-spacing">' + '<div class="mdl-card mdl-shadow--2dp">' + '<div class="mdl-card__title">' + '<h4 class="mdl-card__title-text"></h4>' + '</div>' + '<div class="header">' + '<div class="avatar"></div>' + '<div class="username mdl-color-text--black"></div>' + '<span class="star">' + '<div class="not-starred material-icons">star_border</div>' + '<div class="starred material-icons">star</div>' + '<div class="star-count" id="StarText">0</div>' + '</span>' + '</div>' + '<h5>Deal Info</h5>' + '<div class="text"></div>' + '<h5>Deal Location</h5>' + '<div class="location"></div>' + '<h5>Deal Pricing</h5>' + '<div class="price"></div>' + '<h5>Comments</h5>' + '<div class="comments-container"></div>' + '<form class="add-comment" action="#">' + '<div class="mdl-textfield mdl-js-textfield">' + '<input class="mdl-textfield__input new-comment" type="text">' + '<label class="mdl-textfield__label">Add Comment...</label>' + '</div>' + '</form>' + '</div>' + '</div>' + '</div>';
 		// Create the DOM element from the HTML.
 	}
 	else {
@@ -481,28 +675,28 @@ window.addEventListener('load', function () {
 	// Bind menu buttons.
 	recentMenuButton.onclick = function () {
 		showSection(recentPostsSection, recentMenuButton);
-		// showNotif("Recent Posts");
+		showNotif("Recent Posts");
 	};
 	myPostsMenuButton.onclick = function () {
 		showSection(userPostsSection, myPostsMenuButton);
-		// showNotif("Your Posts");
+		showNotif("Your Posts");
 	};
 	topPostsMenuButton.onclick = function () {
 		showSection(topPostsSection, topPostsMenuButton);
-		//showNotif("Top Posts");
+		showNotif("Top Posts");
 	};
 	locationMenuButton.onclick = function () {
 		showSection(locationSectionContainer, locationMenuButton);
-		// showNotif("Location Posts");
+		showNotif("Location Posts");
 		initMap();
 	};
 	aboutMenuButton.onclick = function () {
 		showSection(aboutSection, aboutMenuButton);
-		//showNotif("About");
+		showNotif("About");
 	};
 	contactMenuButton.onclick = function () {
 		showSection(contactSection, contactMenuButton);
-		//showNotif("Contact");
+		showNotif("Contact");
 	};
 	addButton.onclick = function () {
 		showSection(addPost);
@@ -516,25 +710,189 @@ window.addEventListener('load', function () {
 		existTitle = '';
 		var myStyles = [
 			{
-				featureType: "poi"
-				, elementType: "labels"
-				, stylers: [
+				"elementType": "geometry"
+				, "stylers": [
 					{
-						visibility: "off"
-							}
-        ]
-    }
-];
+						"color": "#242f3e"
+      }
+    ]
+  }
+			, {
+				"elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#746855"
+      }
+    ]
+  }
+			, {
+				"elementType": "labels.text.stroke"
+				, "stylers": [
+					{
+						"color": "#242f3e"
+      }
+    ]
+  }
+			, {
+				"featureType": "administrative.locality"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#d59563"
+      }
+    ]
+  }
+			, {
+				"featureType": "poi"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#d59563"
+      }
+    ]
+  }
+			, {
+				"featureType": "poi.business"
+				, "stylers": [
+					{
+						"visibility": "off"
+      }
+    ]
+  }
+			, {
+				"featureType": "poi.park"
+				, "elementType": "geometry"
+				, "stylers": [
+					{
+						"color": "#263c3f"
+      }
+    ]
+  }
+			, {
+				"featureType": "poi.park"
+				, "elementType": "labels.text"
+				, "stylers": [
+					{
+						"visibility": "off"
+      }
+    ]
+  }
+			, {
+				"featureType": "poi.park"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#6b9a76"
+      }
+    ]
+  }
+			, {
+				"featureType": "road"
+				, "elementType": "geometry"
+				, "stylers": [
+					{
+						"color": "#38414e"
+      }
+    ]
+  }
+			, {
+				"featureType": "road"
+				, "elementType": "geometry.stroke"
+				, "stylers": [
+					{
+						"color": "#212a37"
+      }
+    ]
+  }
+			, {
+				"featureType": "road"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#9ca5b3"
+      }
+    ]
+  }
+			, {
+				"featureType": "road.highway"
+				, "elementType": "geometry"
+				, "stylers": [
+					{
+						"color": "#746855"
+      }
+    ]
+  }
+			, {
+				"featureType": "road.highway"
+				, "elementType": "geometry.stroke"
+				, "stylers": [
+					{
+						"color": "#1f2835"
+      }
+    ]
+  }
+			, {
+				"featureType": "road.highway"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#f3d19c"
+      }
+    ]
+  }
+			, {
+				"featureType": "transit"
+				, "elementType": "geometry"
+				, "stylers": [
+					{
+						"color": "#2f3948"
+      }
+    ]
+  }
+			, {
+				"featureType": "transit.station"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#d59563"
+      }
+    ]
+  }
+			, {
+				"featureType": "water"
+				, "elementType": "geometry"
+				, "stylers": [
+					{
+						"color": "#17263c"
+      }
+    ]
+  }
+			, {
+				"featureType": "water"
+				, "elementType": "labels.text.fill"
+				, "stylers": [
+					{
+						"color": "#515c6d"
+      }
+    ]
+  }
+			, {
+				"featureType": "water"
+				, "elementType": "labels.text.stroke"
+				, "stylers": [
+					{
+						"color": "#17263c"
+      }
+    ]
+  }
+]
 		var mapOptions = {
 			zoom: 15
 			, center: {
 				lat: 53.381145
 				, lng: -6.592528
 			}
-			, mapTypeControl: true
-			, navigationControlOptions: {
-				style: google.maps.NavigationControlStyle.SMALL
-			}
+			, mapTypeControl: false
 			, mapTypeId: google.maps.MapTypeId.ROADMAP
 			, styles: myStyles
 		};
@@ -564,7 +922,7 @@ window.addEventListener('load', function () {
 				, map: map
 				, title: locations[i].place
 				, label: {
-					color: 'gray'
+					color: 'white'
 					, fontWeight: 'bold'
 					, text: locations[i].place
 				, }
